@@ -1,0 +1,66 @@
+<html>
+<head>
+    <style>
+        .container video {
+            width: 800px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #80deea;
+            border: 2px solid #00BCD4;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <video id="vid" src="./fight.mp4">
+    </video>
+    <br/><br/>
+    <button id="playpausebtn">Play</button>
+    <button id="jumpbtn1">Jump to 0:00</button>
+    <button id="jumpbtn2">Jump to 50%</button>
+    <button id="jumpbtn3">Jump to end</button>
+    <svg width='100%' height='65px' viewBox='0 0 1132 65'>
+        <g class='bars'>
+            <rect class='bg' fill='#ccc' width='100%' height='25'></rect>
+            <rect id="bar" class='data' fill='#00BCD4' width='0%' height='25'></rect>
+        </g>
+    </svg>
+</div>
+<script>
+    var isPlaying = false;
+    var btn = document.getElementById('playpausebtn');
+    var vid = document.getElementById('vid');
+    var bar = document.getElementById('bar');
+    btn.addEventListener('click', function() {
+        if (!isPlaying) {
+            btn.textContent = 'Pause';
+            vid.play();
+        } else {
+            btn.textContent = 'Play';
+            vid.pause();
+        }
+        isPlaying = !isPlaying;
+    });
+
+    document.getElementById('jumpbtn1').addEventListener('click', function() {
+        vid.currentTime = 0;
+    });
+
+    document.getElementById('jumpbtn2').addEventListener('click', function() {
+        vid.currentTime = vid.duration / 2;
+    });
+
+    document.getElementById('jumpbtn3').addEventListener('click', function() {
+        vid.currentTime = vid.duration;
+    });
+
+    vid.addEventListener('timeupdate', function(e) {
+        bar.setAttribute('width', Math.round(vid.currentTime * 100 / vid.duration) + '%');
+    });
+
+</script>
+</body>
+</html>
